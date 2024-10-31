@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+    <title>All Foods</title>
+</head>
+<body>
+    <h1>All Foods</h1>
+    <ul>
+        {{#each foods}}
+            <li>
+                Name: {{this.name}}, Protein: {{this.protein}}g, Carbs: {{this.carbs}}g, Fat: {{this.fat}}g
+                {{#if this.vitaminD}} , Vitamin D: {{this.vitaminD}}μg{{/if}}
+                {{#if this.calcium}} , Calcium: {{this.calcium}}mg{{/if}}
+                {{#if this.iron}} , Iron: {{this.iron}}mg{{/if}}
+                {{#if this.potassium}} , Potassium: {{this.potassium}}mg{{/if}}
+                {{#if this.sodium}} , Sodium: {{this.sodium}}mg{{/if}}
+                <form action="/editIntake" method="POST" style="display:inline;">
+                    <input type="hidden" name="protein" value="{{this.protein}}">
+                    <input type="hidden" name="carbs" value="{{this.carbs}}">
+                    <input type="hidden" name="fat" value="{{this.fat}}">
+                    <input type="hidden" name="vitaminD" value="{{this.vitaminD}}">
+                    <input type="hidden" name="calcium" value="{{this.calcium}}">
+                    <input type="hidden" name="iron" value="{{this.iron}}">
+                    <input type="hidden" name="potassium" value="{{this.potassium}}">
+                    <input type="hidden" name="sodium" value="{{this.sodium}}">
+                    <button type="submit">Ate Today</button>
+                </form>
+            </li>
+        {{else}}
+            <li>No foods found.</li>
+        {{/each}}
+    </ul>
+    <a href="/">Back to Home</a>
+</body>
