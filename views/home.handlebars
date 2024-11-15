@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Tracker - Home</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+<body>
+    <h1>Welcome to Our Food Tracker Website!</h1>
+    <p style="text-align: center;">
+        This website helps you track your daily nutritional intake. You can log your food, set your daily nutritional goals, and monitor your progress. Start by exploring the sections above to get started.
+    </p>
+
+    <!-- User Type Selection Form -->
+    <form action="/setGoals" method="POST">
+        <label for="default">Default</label>
+        <input type="radio" id="default" name="userType" value="default">
+        <label for="athlete">Athlete Focused</label>
+        <input type="radio" id="athlete" name="userType" value="athlete">
+        <label for="diabetes">Diabetic</label>
+        <input type="radio" id="diabetes" name="userType" value="diabetic">
+        <label for="seniorCitizen">Senior Citizen</label>
+        <input type="radio" id="seniorCitizen" name="userType" value="senior">
+        <input type="submit" value="Start Tracking">
+    </form>
+
+    <!-- Upload Picture Section -->
+    <div class="upload-section">
+        <h2>Upload a Picture of Your Meal</h2>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="mealPicture" id="mealPicture" accept="image/*" required>
+            <button type="submit">Upload Picture</button>
+        </form>
+    </div>
+</body>
+</html>
