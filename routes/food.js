@@ -1,7 +1,8 @@
 import { Router } from 'express';
 const router = Router();
 import { create, getAll, resetGoals, resetDailyIntake, setGoals} from '../data/food.js';
-import { createDiabetic, resetGoalsDibaetic, setGoalsDiabetic, resetDailyIntakeDiabetic, setDailyIntakeDiabetic} from '../data/diabetic.js'
+import { createDiabetic, resetGoalsDibaetic, setGoalsDiabetic, resetDailyIntakeDiabetic} from '../data/diabetic.js'
+import { createSenior, resetGoalsSenior, setGoalsSenior, resetDailyIntakeSenior} from '../data/seniorCitizen.js'
 
 let goals = {calories: 0, protein: 0, carbs: 0, fat: 0};
 let dailyIntake = {calories: 0, protein: 0, carbs: 0, fat:0};
