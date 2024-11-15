@@ -51,3 +51,23 @@ export const createSenior = async (name, calories, protein, carbs, fat, typeAmou
         vitaminB12: vitaminB12
       }
 };
+
+export const resetDailyIntake = () => {
+    let dailyIntake = {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        vitaminA: 0,
+        vitaminC: 0,
+        vitaminD: 0,
+        vitaminE: 0,
+        vitaminK: 0,
+        vitaminB1: 0,
+        vitaminB2: 0,
+        vitaminB3: 0,
+        vitaminB6: 0,
+        vitaminB12: 0
+    };
+    return dailyIntake;
+}
