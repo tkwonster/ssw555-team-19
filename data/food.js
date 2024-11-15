@@ -72,7 +72,6 @@ export const setGoals = (calories, protein, carbs, fat) => {
   if(!calories || !protein || !carbs || !fat) 
       throw 'all fields must be provided'
   if(typeof(calories) !== 'number' || typeof(protein) !== 'number' || typeof(carbs) !== 'number' || typeof(fat) !== 'number') {
-    console.log(typeof(calories));
       throw 'all fields must be numbers'
   }
   let goals = {

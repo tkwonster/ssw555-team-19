@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goals</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="section">
+        <h2>Your Goals</h2>
+        <p>Calories: {{goals.calories}}</p>
+        <p>Protein: {{goals.protein}}g</p>
+        <p>Carbs: {{goals.carbs}}g</p>
+        <p>Fat: {{goals.fat}}g</p>
+        <p>Vitamin C: {{dailyIntake.vitaminA}}mg</p>
+        <p>Vitamin D: {{dailyIntake.vitaminC}}mg</p>
+        <p>Vitamin E: {{dailyIntake.vitaminD}}mg</p>
+        <p>Vitamin A: {{dailyIntake.vitaminE}}mg</p>
+        <p>Vitamin K: {{dailyIntake.vitaminK}}mg</p>
+        <p>Vitamin B1: {{dailyIntake.vitaminB1}}mg</p>
+        <p>Vitamin B2: {{dailyIntake.vitaminB2}}mg</p>
+        <p>Vitamin B3: {{dailyIntake.vitaminB3}}mg</p>
+        <p>Vitamin B6: {{dailyIntake.vitaminB6}}mg</p>
+        <p>Vitamin B12: {{dailyIntake.vitaminB12}}mg</p>
+        <form action="/resetGoals" method="POST">
+            <button type="submit">Reset Goals</button>
+        </form>
+    </div>
+</body>
+</html>

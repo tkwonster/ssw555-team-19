@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Daily Goals</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="section">
+        <h2>Set Your Daily Goals</h2>
+        <form action="/setGoals" method="POST">
+            <input type="number" name="calories" placeholder="Calorie Goal" required>
+            <input type="number" name="protein" placeholder="Protein Goal (g)" required>
+            <input type="number" name="carbs" placeholder="Carbohydrates Goal (g)" required>
+            <input type="number" name="fat" placeholder="Fat Goal (g)" required>
+            <input type="number" name="typeAmount" placeholder="Amount of different types of food">
+            <button type="submit">Set Goals</button>
+        </form>
+    </div>
+</body>
+</html>

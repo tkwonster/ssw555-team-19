@@ -4,6 +4,7 @@ import configRoutes from './routes/index.js';
 import {fileURLToPath} from 'url';
 import {dirname} from 'path';
 import exphbs from 'express-handlebars';
+import session from 'express-session';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -17,10 +18,16 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   next();
 };
 
+
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+
 app.use((req, res, next) => {
-  if (!res.locals.userType) {
-      res.locals.userType = 'default';
-  }
+  res.locals.userType = req.session.userType || 'default';
   next();
 });
 

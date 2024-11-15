@@ -55,8 +55,8 @@ export const resetGoalsAthlete = () => {
   export const setGoalsAthelete = (calories, protein, carbs, fat, typeAmount) => {
     if(!calories || !protein || !carbs || !fat || !typeAmount)
         throw 'all fields must be provided';
-    if(typeof(calories) !== 'number' || typeof(protein) !== 'number' || typeof(carbs) !== 'number' || typeof(fat) !== 'number' || typeof(typeAmount !== 'number' || typeAmount > 6))
-        throw 'all fields must be numbers and typeAmount cannot be greater than 7';
+    if(typeof(calories) !== 'number' || typeof(protein) !== 'number' || typeof(carbs) !== 'number' || typeof(fat) !== 'number' || typeof(typeAmount) !== 'number' || typeAmount > 6)
+        throw 'all fields must be numbers and typeAmount cannot be greater than 6';
     let goals = {
         calories: calories,
         protein: protein,

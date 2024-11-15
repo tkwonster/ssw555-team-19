@@ -15,13 +15,13 @@
     <p>Your selected user type is: {{userType}}</p>
 
     <!-- User Type Selection Form -->
-    <form action="/" method="POST">
+    <form action="/setUserType" method="POST">
         <label for="default">Default</label>
         <input type="radio" id="default" name="userType" value="default">
         <label for="athlete">Athlete Focused</label>
         <input type="radio" id="athlete" name="userType" value="athlete">
         <label for="diabetes">Diabetic</label>
-        <input type="radio" id="diabetes" name="userType" value="diabetic">
+        <input type="radio" id="diabetes" name="userType" value="diabetes">
         <label for="seniorCitizen">Senior Citizen</label>
         <input type="radio" id="seniorCitizen" name="userType" value="senior">
         <input type="submit" value="Start Tracking">
