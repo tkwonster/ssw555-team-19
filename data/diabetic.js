@@ -14,6 +14,7 @@ export const createDiabetic = async (name, calories, protein, carbs, fat, sugar)
         protein: protein,
         carbs: carbs,
         fat: fat,
+        typeAmount: null,
         sugar: sugar,
         vitaminA: null,
         vitaminC: null,
@@ -40,5 +41,45 @@ export const createDiabetic = async (name, calories, protein, carbs, fat, sugar)
     }
 };
 
+export const resetGoalsDibaetic = () => {
+    let goals = {
+        calories: 0,
+        protein: 0,
+        carbs: 0,
+        fat: 0,
+        sugar: 0
+    };
+    return goals;
+  }
 
 
+  export const setGoalsDiabetic = (calories, protein, carbs, fat, sugar) => {
+    if(!calories || !protein || !carbs || !fat)
+        throw 'all fields must be provided';
+    if(typeof(calories) !== 'number' || typeof(protein) !== 'number' || typeof(carbs) !== 'number' || typeof(fat) !== 'number')
+        throw 'all fields must be numbers';
+    if (sugar == undefined) {
+        sugar = calories * 0.06;
+    } else if (typeof sugar !== 'number') {
+        throw 'Sugar must be a number';
+    }
+    let goals = {
+        calories: calories,
+        protein: protein,
+        carbs: carbs,
+        fat: fat,
+        sugar: sugar
+    };
+    return goals;
+  };
+
+  export const resetDailyIntakeDiabetic = () => {
+    let dailyIntake = {
+      calories: 0,
+      protein: 0,
+      carbs: 0,
+      fat: 0,
+      sugar: 0
+    };
+    return dailyIntake;
+  }

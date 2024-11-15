@@ -1,20 +1,10 @@
 import { Router } from 'express';
 const router = Router();
-import { create, getAll } from '../data/food.js';
+import { create, getAll, resetGoals, resetDailyIntake, setGoals} from '../data/food.js';
+import { createDiabetic, resetGoalsDibaetic, setGoalsDiabetic, resetDailyIntakeDiabetic, setDailyIntakeDiabetic} from '../data/diabetic.js'
 
-let dailyIntake = {
-    calories: 0,
-    protein: 0,
-    carbs: 0,
-    fat: 0,
-};
-
-let goals = {
-    calories: 0,
-    protein: 0,
-    carbs: 0,
-    fat: 0,
-};
+let goals = {calories: 0, protein: 0, carbs: 0, fat: 0};
+let dailyIntake = {calories: 0, protein: 0, carbs: 0, fat:0};
 
 // Home Page Route
 router.get('/', (req, res) => {
@@ -38,14 +28,12 @@ router.get('/setGoals', (req, res) => {
 
 // Set Goals Form Submission
 router.post('/setGoals', (req, res) => {
-    goals = {
-        calories: parseInt(req.body.calories),
-        protein: parseFloat(req.body.protein),
-        carbs: parseFloat(req.body.carbs),
-        fat: parseFloat(req.body.fat)
-    };
+    const {calories, protein, carbs, fat} = req.body;
+    goals = setGoals(parseInt(calories), parseFloat(protein), parseFloat(carbs), parseFloat(fat));
     res.redirect('/goals');
 });
+
+
 
 // Create Food Entry
 router.post('/create', async (req, res) => {
@@ -76,53 +64,27 @@ router.get('/foods', async (req, res) => {
 
 // Reset Goals
 router.post('/resetGoals', (req, res) => {
-    goals = {
-        protein: 0,
-        carbs: 0,
-        fat: 0,
-        vitaminD: 0,
-        calcium: 0,
-        iron: 0,
-        potassium: 0,
-        sodium: 0,
-    };
+    goals = resetGoals();
     res.redirect('/goals');
 });
 
 // Reset Daily Intake
 router.post('/resetDaily', (req, res) => {
-    dailyIntake = {
-        protein: 0,
-        carbs: 0,
-        fat: 0,
-        vitaminD: 0,
-        calcium: 0,
-        iron: 0,
-        potassium: 0,
-        sodium: 0,
-    };
+    dailyIntake = resetDailyIntake();
     res.redirect('/dailyIntake');
 });
 
 // Edit Daily Intake
 router.post('/editIntake', (req, res) => {
+    const calories = parseInt(req.body.calories) || 0;
     const protein = parseFloat(req.body.protein) || 0;
     const carbs = parseFloat(req.body.carbs) || 0;
     const fat = parseFloat(req.body.fat) || 0;
-    const vitaminD = parseFloat(req.body.vitaminD) || 0;
-    const calcium = parseFloat(req.body.calcium) || 0;
-    const iron = parseFloat(req.body.iron) || 0;
-    const potassium = parseFloat(req.body.potassium) || 0;
-    const sodium = parseFloat(req.body.sodium) || 0;
 
+    dailyIntake.calories += calories;
     dailyIntake.protein += protein;
     dailyIntake.carbs += carbs;
     dailyIntake.fat += fat;
-    dailyIntake.vitaminD += vitaminD;
-    dailyIntake.calcium += calcium;
-    dailyIntake.iron += iron;
-    dailyIntake.potassium += potassium;
-    dailyIntake.sodium += sodium;
 
     res.redirect('/dailyIntake');
 });
