@@ -68,17 +68,6 @@ export const resetGoals = () => {
   return goals;
 }
 
-export const resetGoalsAthlete = () => {
-  let goals = {
-      calories: 0,
-      protein: 0,
-      carbs: 0,
-      fat: 0,
-      typeAmount: 0
-  };
-  return goals;
-}
-
 export const setGoals = (calories, protein, carbs, fat) => {
   if(!calories || !protein || !carbs || !fat) 
       throw 'all fields must be provided'
@@ -105,20 +94,7 @@ export const resetDailyIntake = () => {
   return dailyIntake;
 }
 
-export const setGoalsAthelete = (calories, protein, carbs, fat, typeAmount) => {
-  if(!calories || !protein || !carbs || !fat || !typeAmount)
-      throw 'all fields must be provided';
-  if(typeof(calories) !== 'number' || typeof(protein) !== 'number' || typeof(carbs) !== 'number' || typeof(fat) !== 'number' || typeof(typeAmount !== 'number' || typeAmount > 7))
-      throw 'all fields must be numbers and typeAmount cannot be greater than 7';
-  let goals = {
-      calories: calories,
-      protein: protein,
-      carbs: carbs,
-      fat: fat,
-      typeAmount: typeAmount
-  };
-  return goals;
-};
+
 
 
 
