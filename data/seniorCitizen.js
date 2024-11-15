@@ -1,6 +1,6 @@
 import {foods} from '../config/mongoCollections.js';
 
-export const createSenior = async (name, calories, protein, carbs, fat, sugar, vitaminA, vitaminC, vitaminD, vitaminE, vitaminK, vitaminB1, vitaminB2, vitaminB3, vitaminB6, vitaminB12) => {
+export const createSenior = async (name, calories, protein, carbs, fat, typeAmount, sugar, vitaminA, vitaminC, vitaminD, vitaminE, vitaminK, vitaminB1, vitaminB2, vitaminB3, vitaminB6, vitaminB12) => {
     if(!name || !protein || !carbs || !fat)
         throw "name, protein, carbs, and fat must be provided";
     if(typeof(name) !== 'string' || typeof(protein) !== 'number' || typeof(carbs) !== 'number' || typeof(fat) !== 'number' || (vitaminA) !== 'number' || (vitaminC) !== 'number' || (vitaminD) !== 'number' || (vitaminE) !== 'number' || (vitaminK) !== 'number' || (vitaminB1) !== 'number' || (vitaminB2) !== 'number' || (vitaminB3) !== 'number' || (vitaminB6) !== 'number' || (vitaminB12) !== 'number')
@@ -14,6 +14,7 @@ export const createSenior = async (name, calories, protein, carbs, fat, sugar, v
         protein: protein,
         carbs: carbs,
         fat: fat,
+        typeAmount: typeAmount,
         sugar: null,
         vitaminA: vitaminA || undefined,
         vitaminC: vitaminC || undefined,
@@ -36,6 +37,7 @@ export const createSenior = async (name, calories, protein, carbs, fat, sugar, v
         protein: protein,
         carbs: carbs,
         fat: fat,
+        typeAmount: typeAmount,
         sugar: null,
         vitaminA: vitaminA,
         vitaminC: vitaminC,
