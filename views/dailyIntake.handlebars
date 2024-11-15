@@ -9,14 +9,10 @@
 <body>
     <div class="section">
         <h2>Daily Intake</h2>
+        <p>Calories: {{dailyIntake.calories}}</p>
         <p>Protein: {{dailyIntake.protein}}g</p>
         <p>Carbs: {{dailyIntake.carbs}}g</p>
         <p>Fat: {{dailyIntake.fat}}g</p>
-        <p>Vitamin D: {{dailyIntake.vitaminD}}μg</p>
-        <p>Calcium: {{dailyIntake.calcium}}mg</p>
-        <p>Iron: {{dailyIntake.iron}}mg</p>
-        <p>Potassium: {{dailyIntake.potassium}}mg</p>
-        <p>Sodium: {{dailyIntake.sodium}}mg</p>
         <form action="/resetDaily" method="POST">
             <button type="submit">Reset Daily Intake</button>
         </form>

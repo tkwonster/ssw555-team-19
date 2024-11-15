@@ -1,10 +1,10 @@
 import {foods} from '../config/mongoCollections.js';
 
-export const create = async (name, calories, protein, carbs, fat) => {
+export const createDiabetic = async (name, calories, protein, carbs, fat, sugar) => {
     if(!name || !protein || !carbs || !fat || !calories)
         throw "name, calories, protein, carbs, and fat must be provided";
-    if(typeof(name) !== 'string' || typeof(protein) !== 'number' || typeof(carbs) !== 'number' || typeof(fat) !== 'number' || typeof(calories) !== 'number')
-      throw "name must be string + calories, protein, carbs, and fat must be number"
+    if(typeof(name) !== 'string' || typeof(protein) !== 'number' || typeof(carbs) !== 'number' || typeof(fat) !== 'number' || typeof(sugar) !== 'number' || typeof(calories) !== 'number')
+        throw "name must be string + calories, protein, carbs, fat, and sugar must be number"
     name = name.trim();
     if(name.length === 0)
       throw "name cannot be empty string"
@@ -14,7 +14,7 @@ export const create = async (name, calories, protein, carbs, fat) => {
         protein: protein,
         carbs: carbs,
         fat: fat,
-        sugar: null,
+        sugar: sugar,
         vitaminA: null,
         vitaminC: null,
         vitaminD: null,
@@ -36,25 +36,9 @@ export const create = async (name, calories, protein, carbs, fat) => {
         protein: protein,
         carbs: carbs,
         fat: fat,
-        sugar: null,
-        vitaminA: null,
-        vitaminC: null,
-        vitaminD: null,
-        vitaminE: null,
-        vitaminK: null,
-        vitaminB1: null,
-        vitaminB2: null,
-        vitaminB3: null,
-        vitaminB6: null,
-        vitaminB12: null
-      }
+        sugar: sugar
+    }
 };
-
-export const getAll = async () => {
-    const foodsCollection = await foods();
-    const allFoods = await foodsCollection.find({}).toArray();
-    return allFoods;
-}
 
 
 

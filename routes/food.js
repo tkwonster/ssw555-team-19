@@ -3,25 +3,17 @@ const router = Router();
 import { create, getAll } from '../data/food.js';
 
 let dailyIntake = {
+    calories: 0,
     protein: 0,
     carbs: 0,
     fat: 0,
-    vitaminD: 0,
-    calcium: 0,
-    iron: 0,
-    potassium: 0,
-    sodium: 0,
 };
 
 let goals = {
+    calories: 0,
     protein: 0,
     carbs: 0,
     fat: 0,
-    vitaminD: 0,
-    calcium: 0,
-    iron: 0,
-    potassium: 0,
-    sodium: 0,
 };
 
 // Home Page Route
@@ -37,7 +29,7 @@ router.get('/dailyIntake', (req, res) => {
 // Goals Page
 router.get('/goals', (req, res) => {
     res.render('goals', { goals });
-});
+}); 
 
 // Set Daily Goals Page
 router.get('/setGoals', (req, res) => {
@@ -47,14 +39,10 @@ router.get('/setGoals', (req, res) => {
 // Set Goals Form Submission
 router.post('/setGoals', (req, res) => {
     goals = {
-        protein: parseFloat(req.body.protein) || 0,
-        carbs: parseFloat(req.body.carbs) || 0,
-        fat: parseFloat(req.body.fat) || 0,
-        vitaminD: parseFloat(req.body.vitaminD) || 0,
-        calcium: parseFloat(req.body.calcium) || 0,
-        iron: parseFloat(req.body.iron) || 0,
-        potassium: parseFloat(req.body.potassium) || 0,
-        sodium: parseFloat(req.body.sodium) || 0,
+        calories: parseInt(req.body.calories),
+        protein: parseFloat(req.body.protein),
+        carbs: parseFloat(req.body.carbs),
+        fat: parseFloat(req.body.fat)
     };
     res.redirect('/goals');
 });
@@ -62,17 +50,13 @@ router.post('/setGoals', (req, res) => {
 // Create Food Entry
 router.post('/create', async (req, res) => {
     try {
-        const { name, protein, carbs, fat, vitaminD, calcium, iron, potassium, sodium } = req.body;
+        const { name, calories, protein, carbs, fat} = req.body;
         const food = await create(
             name,
+            parseInt(calories),
             parseFloat(protein),
             parseFloat(carbs),
-            parseFloat(fat),
-            vitaminD ? parseFloat(vitaminD) : undefined,
-            calcium ? parseFloat(calcium) : undefined,
-            iron ? parseFloat(iron) : undefined,
-            potassium ? parseFloat(potassium) : undefined,
-            sodium ? parseFloat(sodium) : undefined
+            parseFloat(fat)
         );
         res.render('home', { message: `Food added successfully! ${food.name} was added.` });
     } catch (e) {
