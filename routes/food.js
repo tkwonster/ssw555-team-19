@@ -6,17 +6,36 @@ import { createSenior, resetGoalsSenior, setGoalsSenior, resetDailyIntakeSenior}
 
 let goals = {calories: 0, protein: 0, carbs: 0, fat: 0};
 let dailyIntake = {calories: 0, protein: 0, carbs: 0, fat:0};
+let dailyIntakeAthlete = {calories: 0, protein: 0, carbs: 0, fat: 0, typeAmount: 0}
+let dailyIntakeDiabetic = {calories: 0, protein: 0, carbs: 0, fat: 0, sugar: 0}
+let dailyIntakeSenior = {vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0,vitaminB1: 0, vitaminB2: 0,vitaminB3: 0,vitaminB6: 0,vitaminB12: 0}
 
 // Home Page Route
 router.get('/', (req, res) => {
     res.render('home');
 });
 
-// Daily Intake Page
-router.get('/dailyIntake', (req, res) => {
-    res.render('dailyIntake', { dailyIntake });
+router.post('/', (req, res) => {
+    const userType = req.body.userType
+    res.locals.userType = userType
+    if(res.locals.userType === undefined) {
+        res.locals.userType = "default";
+    }
+    res.redirect('/setGoals');
 });
 
+// Daily Intake Page
+router.get('/dailyIntake', (req, res) => {
+    if (res.locals.userType == "default") {
+        res.render('dailyIntake', { dailyIntake });
+    } else if (res.locals.userType == "athlete") {
+        res.render('dailyIntakeAthlete', { dailyIntakeAthlete });
+    } else if (res.locals.userType == "diabetes") {
+        res.render('dailyIntakeDiabetes', { dailyIntakeDiabetic });
+    } else if (res.locals.userType == "senior") {
+        res.render('dailyIntakeSenior', { dailyIntakeSenior });
+    }
+});
 // Goals Page
 router.get('/goals', (req, res) => {
     res.render('goals', { goals });
@@ -33,8 +52,6 @@ router.post('/setGoals', (req, res) => {
     goals = setGoals(parseInt(calories), parseFloat(protein), parseFloat(carbs), parseFloat(fat));
     res.redirect('/goals');
 });
-
-
 
 // Create Food Entry
 router.post('/create', async (req, res) => {

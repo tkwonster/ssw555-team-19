@@ -17,6 +17,13 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   next();
 };
 
+app.use((req, res, next) => {
+  if (!res.locals.userType) {
+      res.locals.userType = 'default';
+  }
+  next();
+});
+
 app.use('/public', staticDir);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
