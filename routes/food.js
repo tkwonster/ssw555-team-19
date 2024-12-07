@@ -64,13 +64,14 @@ router.get('/goals', (req, res) => {
 
 // Set Daily Goals Page
 router.get('/setGoals', (req, res) => {
-    if(res.locals.userType == 'default') {
+    const userType = req.session.userType
+    if(userType == 'default') {
         res.render('setGoals');
-    } else if(res.locals.userType == 'athlete') {
+    } else if(userType == 'athlete') {
         res.render('setGoalsAthlete');
-    } else if(res.locals.userType == 'diabetes') {
+    } else if(userType == 'diabetes') {
         res.render('setGoalsDiabetes');
-    } else if (res.locals.userType == 'senior') {
+    } else if (userType == 'senior') {
         res.render('setGoalsSenior');
     }
     
@@ -78,7 +79,7 @@ router.get('/setGoals', (req, res) => {
 
 // Set Goals Form Submission
 router.post('/setGoals', async (req, res) => {
-    if(res.locals.userType == 'default') {
+    if(res.locals.userType === 'default') {
         const {calories, protein, carbs, fat} = req.body;
         goals = setGoals(parseInt(calories), parseFloat(protein), parseFloat(carbs), parseFloat(fat));
         req.session.user = req.session.user || {};
@@ -89,7 +90,7 @@ router.post('/setGoals', async (req, res) => {
             { _id: userId },
             { $set: { "dailyGoal": goals } }
         );
-        res.redirect('/goals');
+        res.render('goals', {goals: goals});
     } else if(res.locals.userType == 'athlete') {
         const {calories, protein, carbs, fat, typeAmount} = req.body;
         goalsAthelete = setGoalsAthelete(parseInt(calories), parseFloat(protein), parseFloat(carbs), parseFloat(fat), parseInt(typeAmount));
@@ -101,7 +102,7 @@ router.post('/setGoals', async (req, res) => {
             { _id: userId },
             { $set: { "dailyGoal": goalsAthelete } }
         );
-        res.redirect('/goals');
+        res.render('goalsAthlete', {goals: goalsAthelete});
     } else if(res.locals.userType == 'diabetes') {
         const {calories, protein, carbs, fat, sugar} = req.body;
         goalsDiabetic = setGoalsDiabetic(parseInt(calories), parseFloat(protein), parseFloat(carbs), parseFloat(fat), parseInt(sugar));
@@ -113,7 +114,7 @@ router.post('/setGoals', async (req, res) => {
             { _id: userId },
             { $set: { "dailyGoal": goalsDiabetic } }
         );
-        res.redirect('/goals');
+        res.render('goalsDiabetes', {goals: goalsDiabetic});
     } else if (res.locals.userType == 'senior') {
         const {calories, protein, carbs, fat, vitaminA, vitaminC, vitaminD, vitaminE, vitaminK,vitaminB1, vitaminB2,vitaminB3,vitaminB6,vitaminB12} = req.body;
         goalsSenior = setGoalsSenior(parseInt(calories), parseFloat(protein), parseFloat(carbs), parseFloat(fat), parseInt(vitaminA), parseInt(vitaminC), parseInt(vitaminD), parseInt(vitaminE), parseInt(vitaminK), parseInt(vitaminB1), parseInt(vitaminB2), parseInt(vitaminB3), parseInt(vitaminB6), parseInt(vitaminB12));
@@ -125,7 +126,7 @@ router.post('/setGoals', async (req, res) => {
             { _id: userId },
             { $set: { "dailyGoal": goalsSenior } }
         );
-        res.redirect('/goals');
+        res.render('goalsSenior', {goals: goalsSenior});
     }
 });
 
@@ -220,7 +221,7 @@ router.post('/resetDaily', (req, res) => {
 
 // Edit Daily Intake
 router.post('/editIntake', (req, res) => {
-    const userType = req.session.userType; 
+    const userType = req.session.userType;
     const calories = parseInt(req.body.calories) || 0;
     const protein = parseFloat(req.body.protein) || 0;
     const carbs = parseFloat(req.body.carbs) || 0;
@@ -350,7 +351,6 @@ router.post('/addFoods', async (req, res) => {
             res.render('foods', {foods: foodsList});
         }
     } catch (error) {
-        console.error(error);
         res.status(400).send(error);
     }
 });
