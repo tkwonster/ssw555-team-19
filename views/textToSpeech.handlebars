@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+  <link rel="stylesheet" href="/public/css/styles.css"> <!-- Link to your CSS -->
+</head>
+<body>
+  <div class="navbar">
+    <a href="/">Home</a>
+    <a href="/signup">Sign Up/Login</a>
+    <a href="/dailyIntake">Daily Intake</a>
+    <a href="/goals">Goals</a>
+    <a href="/setGoals">Set Daily Goals</a>
+  </div>
+
+  <main>
+    {{{body}}} <!-- Dynamically include page content -->
+  </main>
+
+  <footer style="text-align: center; margin-top: 20px;">
+    <button id="ttsButton" style="padding: 10px 20px; font-size: 16px; background-color: #4caf50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+      CLICK FOR TEXT-TO-SPEECH
+    </button>
+    <audio id="audioPlayer" controls style="display: block; margin: 10px auto; max-width: 80%;"></audio>
+  </footer>
+
+  <script>
+    document.getElementById('ttsButton').addEventListener('click', () => {
+      const pageContent = document.body.innerText.trim();
+
+      fetch('/text-to-speech/generate-speech', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: pageContent })
+      })
+      .then(response => response.blob())
+      .then(blob => {
+        const audioURL = URL.createObjectURL(blob);
+        const audioPlayer = document.getElementById('audioPlayer');
+        audioPlayer.src = audioURL;
+        audioPlayer.play();
+      })
+      .catch(error => {
+        console.error('Error generating speech:', error);
+        alert('Failed to generate speech. Please try again.');
+      });
+    });
+  </script>
+</body>
+</html>

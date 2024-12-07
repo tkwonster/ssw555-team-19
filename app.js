@@ -1,10 +1,12 @@
 import express from 'express';
 const app = express();
 import configRoutes from './routes/index.js';
-import {fileURLToPath} from 'url';
-import {dirname} from 'path';
+import textToSpeechRoutes from './routes/textToSpeech.js'; // Import Text-to-Speech routes
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 import exphbs from 'express-handlebars';
 import session from 'express-session';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -17,7 +19,6 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   }
   next();
 };
-
 
 app.use(session({
     secret: 'your-secret-key',
@@ -33,12 +34,13 @@ app.use((req, res, next) => {
 
 app.use('/public', staticDir);
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(rewriteUnsupportedBrowserMethods);
 
-app.engine('handlebars', exphbs.engine({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
+app.use('/text-to-speech', textToSpeechRoutes); // Use Text-to-Speech routes
 configRoutes(app);
 
 app.listen(3000, () => {
