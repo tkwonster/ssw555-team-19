@@ -355,5 +355,8 @@ router.post('/addFoods', async (req, res) => {
     }
 });
 
+router.post('/upload', (req, res) => {
+    res.render('upload');
+});
 
 export default router;
