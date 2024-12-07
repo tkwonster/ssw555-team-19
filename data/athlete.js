@@ -1,6 +1,6 @@
 import {foods} from '../config/mongoCollections.js';
 
-export const createAthlete = async (name, calories, protein, carbs, fat, typeAmount) => {
+export const createAthlete = async (name, calories, protein, carbs, fat) => {
     if(!name || !protein || !carbs || !fat || !calories || !typeAmount)
         throw "name, calories, protein, carbs, fat, and typeAmount must be provided";
     if(typeof(name) !== 'string' || typeof(protein) !== 'number' || typeof(carbs) !== 'number' || typeof(fat) !== 'number' || typeof(typeAmount) !== 'number' || typeof(calories) !== 'number')
@@ -14,7 +14,7 @@ export const createAthlete = async (name, calories, protein, carbs, fat, typeAmo
         protein: protein,
         carbs: carbs,
         fat: fat,
-        typeAmount: typeAmount,
+        typeAmount: null,
         sugar: null,
         vitaminA: null,
         vitaminC: null,

@@ -1,9 +1,12 @@
 import { Router } from 'express';
 const router = Router();
+import {users} from '../config/mongoCollections.js';
 import { create, getAll, resetGoals, resetDailyIntake, setGoals } from '../data/food.js';
 import { createDiabetic, resetGoalsDibaetic, setGoalsDiabetic, resetDailyIntakeDiabetic} from '../data/diabetic.js'
 import { createSenior, resetGoalsSenior, setGoalsSenior, resetDailyIntakeSenior} from '../data/seniorCitizen.js'
-import { resetGoalsAthlete, setGoalsAthelete } from '../data/athlete.js';
+import { createAthlete, resetGoalsAthlete, setGoalsAthelete, resetDailyIntakeAthlete } from '../data/athlete.js';
+import { createUser, loginUser } from '../data/users.js';
+import { ObjectId } from 'mongodb';
 
 let goals = {calories: 0, protein: 0, carbs: 0, fat: 0};
 let goalsAthelete = {calories: 0, protein: 0, carbs: 0, fat: 0, typeAmount: 0};
@@ -48,13 +51,13 @@ router.get('/dailyIntake', (req, res) => {
 // Goals Page
 router.get('/goals', (req, res) => {
     if(res.locals.userType == 'default') {
-        res.render('goals', { goals });
+        res.render('goals', { goals: req.session.dailyGoal });
     } else if(res.locals.userType == 'athlete') {
-        res.render('goalsAthlete', { goals: goalsAthelete });
+        res.render('goalsAthlete', { goals: req.session.dailyGoal });
     } else if(res.locals.userType == 'diabetes') {
-        res.render('goalsDiabetes', { goals:goalsDiabetic });
+        res.render('goalsDiabetes', { goals:req.session.dailyGoal });
     } else if (res.locals.userType == 'senior') {
-        res.render('goalsSenior', { goals:goalsSenior });
+        res.render('goalsSenior', { goals: req.session.dailyGoal});
     }
 
 }); 
@@ -74,25 +77,56 @@ router.get('/setGoals', (req, res) => {
 });
 
 // Set Goals Form Submission
-router.post('/setGoals', (req, res) => {
+router.post('/setGoals', async (req, res) => {
     if(res.locals.userType == 'default') {
         const {calories, protein, carbs, fat} = req.body;
         goals = setGoals(parseInt(calories), parseFloat(protein), parseFloat(carbs), parseFloat(fat));
+        req.session.user = req.session.user || {};
+        req.session.user.dailyGoal = goals; 
+        const userCollection = await users();
+        const userId = new ObjectId(req.session.userId);
+        await userCollection.updateOne(
+            { _id: userId },
+            { $set: { "dailyGoal": goals } }
+        );
         res.redirect('/goals');
     } else if(res.locals.userType == 'athlete') {
         const {calories, protein, carbs, fat, typeAmount} = req.body;
         goalsAthelete = setGoalsAthelete(parseInt(calories), parseFloat(protein), parseFloat(carbs), parseFloat(fat), parseInt(typeAmount));
+        req.session.user = req.session.user || {};
+        req.session.user.dailyGoal = goalsAthelete; 
+        const userCollection = await users();
+        const userId = new ObjectId(req.session.userId);
+        await userCollection.updateOne(
+            { _id: userId },
+            { $set: { "dailyGoal": goalsAthelete } }
+        );
         res.redirect('/goals');
     } else if(res.locals.userType == 'diabetes') {
         const {calories, protein, carbs, fat, sugar} = req.body;
         goalsDiabetic = setGoalsDiabetic(parseInt(calories), parseFloat(protein), parseFloat(carbs), parseFloat(fat), parseInt(sugar));
+        req.session.user = req.session.user || {};
+        req.session.user.dailyGoal = goalsDiabetic; 
+        const userCollection = await users();
+        const userId = new ObjectId(req.session.userId);
+        await userCollection.updateOne(
+            { _id: userId },
+            { $set: { "dailyGoal": goalsDiabetic } }
+        );
         res.redirect('/goals');
     } else if (res.locals.userType == 'senior') {
         const {calories, protein, carbs, fat, vitaminA, vitaminC, vitaminD, vitaminE, vitaminK,vitaminB1, vitaminB2,vitaminB3,vitaminB6,vitaminB12} = req.body;
         goalsSenior = setGoalsSenior(parseInt(calories), parseFloat(protein), parseFloat(carbs), parseFloat(fat), parseInt(vitaminA), parseInt(vitaminC), parseInt(vitaminD), parseInt(vitaminE), parseInt(vitaminK), parseInt(vitaminB1), parseInt(vitaminB2), parseInt(vitaminB3), parseInt(vitaminB6), parseInt(vitaminB12));
+        req.session.user = req.session.user || {};
+        req.session.user.dailyGoal = goalsSenior; 
+        const userCollection = await users();
+        const userId = new ObjectId(req.session.userId);
+        await userCollection.updateOne(
+            { _id: userId },
+            { $set: { "dailyGoal": goalsSenior } }
+        );
         res.redirect('/goals');
     }
-
 });
 
 // Create Food Entry
@@ -123,21 +157,48 @@ router.get('/foods', async (req, res) => {
 });
 
 // Reset Goals
-router.post('/resetGoals', (req, res) => {
-    if(res.locals.userType == 'default') {
-        goals = resetGoals();
-        res.redirect('/goals');
-    } else if(res.locals.userType == 'athlete') {
-        goalsAthelete = resetGoalsAthlete();
-        res.redirect('/goals');
-    } else if(res.locals.userType == 'diabetes') {
-        goalsDiabetic = resetGoalsDibaetic();
-        res.redirect('/goals');
+router.post('/resetGoals', async (req, res) => {
+    req.session.user = req.session.user || {};
+    const userCollection = await users();
+    const userId = new ObjectId(req.session.userId);
+
+    if (res.locals.userType == 'default') {
+        const goals = resetGoals();
+        req.session.user.dailyGoal = goals;
+        await userCollection.updateOne(
+            { _id: userId },
+            { $set: { dailyGoal: goals } }
+        );
+        res.render('goals', {goals});
+    } else if (res.locals.userType == 'athlete') {
+        const goalsAthlete = resetGoalsAthlete();
+        req.session.user.dailyGoal = goalsAthlete;
+        await userCollection.updateOne(
+            { _id: userId },
+            { $set: { dailyGoal: goalsAthelete } }
+        );
+        res.render('goalsAthlete', {goals: goalsAthelete});
+    } else if (res.locals.userType == 'diabetes') {
+        const goalsDiabetic = resetGoalsDibaetic();
+        req.session.user.dailyGoal = goalsDiabetic;
+        await userCollection.updateOne(
+            { _id: userId },
+            { $set: { dailyGoal: goalsDiabetic } }
+        );
+        res.render('goalsDiabetes', {goals: goalsDiabetic});
     } else if (res.locals.userType == 'senior') {
-        goalsSenior = resetGoalsSenior();
-        res.redirect('/goals');
+        const goalsSenior = resetGoalsSenior();
+        req.session.user.dailyGoal = goalsSenior;
+        await userCollection.updateOne(
+            { _id: userId },
+            { $set: { dailyGoal: goalsSenior } }
+        );
+        res.render('goalsSenior', {goals: goalsSenior});
+    } else {
+        res.status(400).send('Invalid user type');
     }
 });
+
 
 // Reset Daily Intake
 router.post('/resetDaily', (req, res) => {
@@ -159,5 +220,42 @@ router.post('/editIntake', (req, res) => {
 
     res.redirect('/dailyIntake');
 });
+
+router.get('/signup', (req, res) => {
+    res.render('signup');
+})
+
+router.post('/signup', async (req, res) => {
+    try {
+        const { userName, password, userType } = req.body;
+        const newUser = await createUser(userName, password, userType);
+        req.session.userId = newUser._id;
+        req.session.userName = newUser.userName;
+        req.session.userType = newUser.userType; 
+        req.session.dailyGoal = newUser.dailyGoal;
+        res.redirect('/');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+  });
+
+  router.get('/login', async (req, res) => {
+    res.render('login');
+  })
+
+  router.post('/login', async (req, res) => {
+    try {
+      const { userName, password } = req.body;
+      const loggedInUser = await loginUser(userName, password);
+      req.session.userId = loggedInUser._id;
+      req.session.userName = loggedInUser.userName;
+      req.session.userType = loggedInUser.Usertype; 
+      req.session.dailyGoal = loggedInUser.dailyGoal;
+      res.redirect('/');
+    } catch (error) {
+      res.status(500).send('Login failed: ' + error);
+    }
+  });
+  
 
 export default router;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Goals</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
 </head>
 <body>
     <div class="section">
@@ -13,16 +13,16 @@
         <p>Protein: {{goals.protein}}g</p>
         <p>Carbs: {{goals.carbs}}g</p>
         <p>Fat: {{goals.fat}}g</p>
-        <p>Vitamin C: {{dailyIntake.vitaminA}}mg</p>
-        <p>Vitamin D: {{dailyIntake.vitaminC}}mg</p>
-        <p>Vitamin E: {{dailyIntake.vitaminD}}mg</p>
-        <p>Vitamin A: {{dailyIntake.vitaminE}}mg</p>
-        <p>Vitamin K: {{dailyIntake.vitaminK}}mg</p>
-        <p>Vitamin B1: {{dailyIntake.vitaminB1}}mg</p>
-        <p>Vitamin B2: {{dailyIntake.vitaminB2}}mg</p>
-        <p>Vitamin B3: {{dailyIntake.vitaminB3}}mg</p>
-        <p>Vitamin B6: {{dailyIntake.vitaminB6}}mg</p>
-        <p>Vitamin B12: {{dailyIntake.vitaminB12}}mg</p>
+        <p>Vitamin C: {{goals.vitaminA}}mg</p>
+        <p>Vitamin D: {{goals.vitaminC}}mg</p>
+        <p>Vitamin E: {{goals.vitaminD}}mg</p>
+        <p>Vitamin A: {{goals.vitaminE}}mg</p>
+        <p>Vitamin K: {{goals.vitaminK}}mg</p>
+        <p>Vitamin B1: {{goals.vitaminB1}}mg</p>
+        <p>Vitamin B2: {{goals.vitaminB2}}mg</p>
+        <p>Vitamin B3: {{goals.vitaminB3}}mg</p>
+        <p>Vitamin B6: {{goals.vitaminB6}}mg</p>
+        <p>Vitamin B12: {{goals.vitaminB12}}mg</p>
         <form action="/resetGoals" method="POST">
             <button type="submit">Reset Goals</button>
         </form>
