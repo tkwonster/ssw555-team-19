@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <head>
     <title>All Foods</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goals</title>
+    <link rel="stylesheet" href="/public/css/styles.css">
 </head>
 <body>
     <h1>All Foods</h1>
@@ -8,11 +12,107 @@
         {{#each foods}}
             <li>
                 Name: {{this.name}}, Calories: {{this.calories}}, Protein: {{this.protein}}g, Carbs: {{this.carbs}}g, Fat: {{this.fat}}g
+
+                {{#if this.typeAmount}}
+                    , Type Amount: {{this.typeAmount}}
+                {{/if}}
+
+                {{#if this.sugar}}
+                    , Sugar: {{this.sugar}}g
+                {{/if}}
+
+                {{#if this.vitaminA}}
+                    , Vitamin A: {{this.vitaminA}} IU
+                {{/if}}
+
+                {{#if this.vitaminC}}
+                    , Vitamin C: {{this.vitaminC}} mg
+                {{/if}}
+
+                {{#if this.vitaminD}}
+                    , Vitamin D: {{this.vitaminD}} IU
+                {{/if}}
+
+                {{#if this.vitaminE}}
+                    , Vitamin E: {{this.vitaminE}} mg
+                {{/if}}
+
+                {{#if this.vitaminK}}
+                    , Vitamin K: {{this.vitaminK}} mcg
+                {{/if}}
+
+                {{#if this.vitaminB1}}
+                    , Vitamin B1: {{this.vitaminB1}} mg
+                {{/if}}
+
+                {{#if this.vitaminB2}}
+                    , Vitamin B2: {{this.vitaminB2}} mg
+                {{/if}}
+
+                {{#if this.vitaminB3}}
+                    , Vitamin B3: {{this.vitaminB3}} mg
+                {{/if}}
+
+                {{#if this.vitaminB6}}
+                    , Vitamin B6: {{this.vitaminB6}} mg
+                {{/if}}
+
+                {{#if this.vitaminB12}}
+                    , Vitamin B12: {{this.vitaminB12}} mcg
+                {{/if}}
+
+                <!-- Edit Intake Form -->
                 <form action="/editIntake" method="POST" style="display:inline;">
+                    <input type="hidden" name="foodId" value="{{this._id}}">
                     <input type="hidden" name="calories" value="{{this.calories}}">
                     <input type="hidden" name="protein" value="{{this.protein}}">
                     <input type="hidden" name="carbs" value="{{this.carbs}}">
                     <input type="hidden" name="fat" value="{{this.fat}}">
+                    
+                    {{#if this.sugar}}
+                        <input type="hidden" name="sugar" value="{{this.sugar}}">
+                    {{/if}}
+
+                    {{#if this.vitaminA}}
+                        <input type="hidden" name="vitaminA" value="{{this.vitaminA}}">
+                    {{/if}}
+
+                    {{#if this.vitaminC}}
+                        <input type="hidden" name="vitaminC" value="{{this.vitaminC}}">
+                    {{/if}}
+
+                    {{#if this.vitaminD}}
+                        <input type="hidden" name="vitaminD" value="{{this.vitaminD}}">
+                    {{/if}}
+
+                    {{#if this.vitaminE}}
+                        <input type="hidden" name="vitaminE" value="{{this.vitaminE}}">
+                    {{/if}}
+
+                    {{#if this.vitaminK}}
+                        <input type="hidden" name="vitaminK" value="{{this.vitaminK}}">
+                    {{/if}}
+
+                    {{#if this.vitaminB1}}
+                        <input type="hidden" name="vitaminB1" value="{{this.vitaminB1}}">
+                    {{/if}}
+
+                    {{#if this.vitaminB2}}
+                        <input type="hidden" name="vitaminB2" value="{{this.vitaminB2}}">
+                    {{/if}}
+
+                    {{#if this.vitaminB3}}
+                        <input type="hidden" name="vitaminB3" value="{{this.vitaminB3}}">
+                    {{/if}}
+
+                    {{#if this.vitaminB6}}
+                        <input type="hidden" name="vitaminB6" value="{{this.vitaminB6}}">
+                    {{/if}}
+
+                    {{#if this.vitaminB12}}
+                        <input type="hidden" name="vitaminB12" value="{{this.vitaminB12}}">
+                    {{/if}}
+
                     <button type="submit">Ate Today</button>
                 </form>
             </li>
@@ -20,5 +120,11 @@
             <li>No foods found.</li>
         {{/each}}
     </ul>
-    <a href="/">Back to Home</a>
+
+    <!-- Button to Add Food -->
+    <form action="/addFoods" method="GET">
+        <button type="submit">Add Food</button>
+    </form>
+
 </body>
+</html>

@@ -8,6 +8,7 @@ import session from 'express-session';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+
 const staticDir = express.static(__dirname + '/public');
 
 const rewriteUnsupportedBrowserMethods = (req, res, next) => {
@@ -17,7 +18,6 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   }
   next();
 };
-
 
 app.use(session({
     secret: 'your-secret-key',
@@ -29,6 +29,21 @@ app.use(session({
 app.use((req, res, next) => {
   res.locals.userType = req.session.userType || 'default';
   next();
+});
+
+exphbs.create().handlebars.registerHelper('ifCond', function(v1, operator, v2, options) {
+  switch(operator) {
+      case '==':
+          return (v1 == v2) ? options.fn(this) : options.inverse(this);
+      case '!=':
+          return (v1 != v2) ? options.fn(this) : options.inverse(this);
+      case '===':
+          return (v1 === v2) ? options.fn(this) : options.inverse(this);
+      case '!==':
+          return (v1 !== v2) ? options.fn(this) : options.inverse(this);
+      default:
+          return options.inverse(this);
+  }
 });
 
 app.use('/public', staticDir);

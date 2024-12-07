@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<head>
+    <title>Add Food</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/css/styles.css">
+</head>
+<body>
+    <h1>Add Food</h1>
+    <form action="/addFoods" method="POST">
+        <div>
+            <label for="name">Food Name:</label>
+            <input type="text" name="name" required>
+        </div>
+        <div>
+            <label for="calories">Calories:</label>
+            <input type="number" name="calories" required>
+        </div>
+        <div>
+            <label for="protein">Protein (g):</label>
+            <input type="number" name="protein" step="0.1" required>
+        </div>
+        <div>
+            <label for="carbs">Carbs (g):</label>
+            <input type="number" name="carbs" step="0.1" required>
+        </div>
+        <div>
+            <label for="fat">Fat (g):</label>
+            <input type="number" name="fat" step="0.1" required>
+        </div>
+
+        {{#ifCond userType '==' 'senior'}}
+        <div>
+            <label for="vitaminA">Vitamin A:</label>
+            <input type="number" name="vitaminA">
+        </div>
+        <div>
+            <label for="vitaminC">Vitamin C:</label>
+            <input type="number" name="vitaminC">
+        </div>
+        <div>
+            <label for="vitaminD">Vitamin D:</label>
+            <input type="number" name="vitaminD">
+        </div>
+        <div>
+            <label for="vitaminE">Vitamin E:</label>
+            <input type="number" name="vitaminE">
+        </div>
+        <div>
+            <label for="vitaminK">Vitamin K:</label>
+            <input type="number" name="vitaminK">
+        </div>
+        <div>
+            <label for="vitaminB1">Vitamin B1:</label>
+            <input type="number" name="vitaminB1">
+        </div>
+        <div>
+            <label for="vitaminB2">Vitamin B2:</label>
+            <input type="number" name="vitaminB2">
+        </div>
+        <div>
+            <label for="vitaminB3">Vitamin B3:</label>
+            <input type="number" name="vitaminB3">
+        </div>
+        <div>
+            <label for="vitaminB6">Vitamin B6:</label>
+            <input type="number" name="vitaminB6">
+        </div>
+        <div>
+            <label for="vitaminB12">Vitamin B12:</label>
+            <input type="number" name="vitaminB12">
+        </div>
+        {{/ifCond}}
+
+        {{#ifCond userType '==' 'diabetic'}}
+        <div>
+            <label for="sugar">Sugar (g):</label>
+            <input type="number" name="sugar">
+        </div>
+        {{/ifCond}}
+
+        <button type="submit">Add Food</button>
+    </form>
+</body>
+</html>

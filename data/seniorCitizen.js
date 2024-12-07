@@ -1,10 +1,50 @@
 import {foods} from '../config/mongoCollections.js';
 
-export const createSenior = async (name, calories, protein, carbs, fat, typeAmount, sugar, vitaminA, vitaminC, vitaminD, vitaminE, vitaminK, vitaminB1, vitaminB2, vitaminB3, vitaminB6, vitaminB12) => {
+export const createSenior = async (name, calories, protein, carbs, fat, vitaminA, vitaminC, vitaminD, vitaminE, vitaminK, vitaminB1, vitaminB2, vitaminB3, vitaminB6, vitaminB12) => {
     if(!name || !protein || !carbs || !fat)
         throw "name, protein, carbs, and fat must be provided";
-    if(typeof(name) !== 'string' || typeof(protein) !== 'number' || typeof(carbs) !== 'number' || typeof(fat) !== 'number' || (vitaminA) !== 'number' || (vitaminC) !== 'number' || (vitaminD) !== 'number' || (vitaminE) !== 'number' || (vitaminK) !== 'number' || (vitaminB1) !== 'number' || (vitaminB2) !== 'number' || (vitaminB3) !== 'number' || (vitaminB6) !== 'number' || (vitaminB12) !== 'number')
-      throw "name must be string & protein, carbs, and fat must be number"
+    if (typeof(name) !== 'string') {
+        console.log('name is not a string');
+    }
+    if (typeof(protein) !== 'number') {
+        console.log('protein is not a number');
+    }
+    if (typeof(carbs) !== 'number') {
+        console.log('carbs is not a number');
+    }
+    if (typeof(fat) !== 'number') {
+        console.log('fat is not a number');
+    }
+    if (typeof(vitaminA) !== 'number') {
+        console.log('vitaminA is not a number');
+    }
+    if (typeof(vitaminC) !== 'number') {
+        console.log('vitaminC is not a number');
+    }
+    if (typeof(vitaminD) !== 'number') {
+        console.log('vitaminD is not a number');
+    }
+    if (typeof(vitaminE) !== 'number') {
+        console.log('vitaminE is not a number');
+    }
+    if (typeof(vitaminK) !== 'number') {
+        console.log('vitaminK is not a number');
+    }
+    if (typeof(vitaminB1) !== 'number') {
+        console.log('vitaminB1 is not a number');
+    }
+    if (typeof(vitaminB2) !== 'number') {
+        console.log('vitaminB2 is not a number');
+    }
+    if (typeof(vitaminB3) !== 'number') {
+        console.log('vitaminB3 is not a number');
+    }
+    if (typeof(vitaminB6) !== 'number') {
+        console.log('vitaminB6 is not a number');
+    }
+    if (typeof(vitaminB12) !== 'number') {
+        console.log('vitaminB12 is not a number');
+    }
     name = name.trim();
     if(name.length === 0)
       throw "name cannot be empty string"
@@ -14,7 +54,6 @@ export const createSenior = async (name, calories, protein, carbs, fat, typeAmou
         protein: protein,
         carbs: carbs,
         fat: fat,
-        typeAmount: typeAmount,
         sugar: null,
         vitaminA: vitaminA || undefined,
         vitaminC: vitaminC || undefined,
@@ -37,7 +76,6 @@ export const createSenior = async (name, calories, protein, carbs, fat, typeAmou
         protein: protein,
         carbs: carbs,
         fat: fat,
-        typeAmount: typeAmount,
         sugar: null,
         vitaminA: vitaminA,
         vitaminC: vitaminC,
@@ -102,6 +140,7 @@ export const setGoalsSenior = (calories, protein, carbs, fat, vitaminA, vitaminC
         protein: protein,
         carbs: carbs,
         fat: fat,
+        sugar: null,
         vitaminA: vitaminA,
         vitaminC: vitaminC,
         vitaminD: vitaminD,

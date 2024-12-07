@@ -14,7 +14,6 @@ export const createDiabetic = async (name, calories, protein, carbs, fat, sugar)
         protein: protein,
         carbs: carbs,
         fat: fat,
-        typeAmount: null,
         sugar: sugar,
         vitaminA: null,
         vitaminC: null,

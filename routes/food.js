@@ -1,6 +1,6 @@
 import { Router } from 'express';
 const router = Router();
-import {users} from '../config/mongoCollections.js';
+import {users, foods} from '../config/mongoCollections.js';
 import { create, getAll, resetGoals, resetDailyIntake, setGoals } from '../data/food.js';
 import { createDiabetic, resetGoalsDibaetic, setGoalsDiabetic, resetDailyIntakeDiabetic} from '../data/diabetic.js'
 import { createSenior, resetGoalsSenior, setGoalsSenior, resetDailyIntakeSenior} from '../data/seniorCitizen.js'
@@ -13,7 +13,7 @@ let goalsAthelete = {calories: 0, protein: 0, carbs: 0, fat: 0, typeAmount: 0};
 let goalsDiabetic = {calories: 0, protein: 0, carbs: 0, fat: 0, sugar: 0};
 let goalsSenior = {calories: 0, protein: 0, carbs: 0, fat: 0, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0,vitaminB1: 0, vitaminB2: 0,vitaminB3: 0,vitaminB6: 0,vitaminB12: 0};
 let dailyIntake = {calories: 0, protein: 0, carbs: 0, fat:0};
-let dailyIntakeAthlete = {calories: 0, protein: 0, carbs: 0, fat: 0, typeAmount: 0}
+let dailyIntakeAthlete = {calories: 0, protein: 0, carbs: 0, fat: 0}
 let dailyIntakeDiabetic = {calories: 0, protein: 0, carbs: 0, fat: 0, sugar: 0}
 let dailyIntakeSenior = {calories: 0, protein: 0, carbs: 0, fat: 0, vitaminA: 0, vitaminC: 0, vitaminD: 0, vitaminE: 0, vitaminK: 0,vitaminB1: 0, vitaminB2: 0,vitaminB3: 0,vitaminB6: 0,vitaminB12: 0}
 
@@ -202,24 +202,80 @@ router.post('/resetGoals', async (req, res) => {
 
 // Reset Daily Intake
 router.post('/resetDaily', (req, res) => {
-    dailyIntake = resetDailyIntake();
-    res.redirect('/dailyIntake');
+    const userType = req.session.userType; 
+    if(userType === 'senior') {
+        dailyIntakeSenior = resetDailyIntakeSenior();
+        res.render('dailyIntakeSenior', {dailyIntake: dailyIntakeSenior})
+    } else if (userType === 'diabetic') {
+        dailyIntakeDiabetic = resetDailyIntakeDiabetic();
+        res.render('dailyIntakeSenior', {dailyIntake: dailyIntakeDiabetic})
+    } else if (userType === 'athlete') {
+        dailyIntakeAthlete = resetDailyIntakeDiabetic();
+        res.render('dailyIntakeSenior', {dailyIntake: dailyIntakeAthlete})
+    } else {
+        dailyIntake = resetDailyIntake();
+        res.render('dailyIntakeSenior', {dailyIntake: dailyIntake})
+    }
 });
 
 // Edit Daily Intake
 router.post('/editIntake', (req, res) => {
+    const userType = req.session.userType; 
     const calories = parseInt(req.body.calories) || 0;
     const protein = parseFloat(req.body.protein) || 0;
     const carbs = parseFloat(req.body.carbs) || 0;
     const fat = parseFloat(req.body.fat) || 0;
-
-    dailyIntake.calories += calories;
-    dailyIntake.protein += protein;
-    dailyIntake.carbs += carbs;
-    dailyIntake.fat += fat;
-
-    res.redirect('/dailyIntake');
+    const sugar = parseFloat(req.body.sugar) || 0;
+    const vitaminA = parseFloat(req.body.vitaminA) || 0;
+    const vitaminC = parseFloat(req.body.vitaminC) || 0;
+    const vitaminD = parseFloat(req.body.vitaminD) || 0;
+    const vitaminE = parseFloat(req.body.vitaminE) || 0;
+    const vitaminK = parseFloat(req.body.vitaminK) || 0;
+    const vitaminB1 = parseFloat(req.body.vitaminB1) || 0;
+    const vitaminB2 = parseFloat(req.body.vitaminB2) || 0;
+    const vitaminB3 = parseFloat(req.body.vitaminB3) || 0;
+    const vitaminB6 = parseFloat(req.body.vitaminB6) || 0;
+    const vitaminB12 = parseFloat(req.body.vitaminB12) || 0;
+    if (userType === 'athlete') {
+        dailyIntakeAthlete.calories += calories;
+        dailyIntakeAthlete.protein += protein;
+        dailyIntakeAthlete.carbs += carbs;
+        dailyIntakeAthlete.fat += fat;
+        res.render('dailyIntakeAthlete', {dailyIntake: dailyIntakeAthlete});
+    } else if (userType === 'diabetic') {
+        dailyIntakeDiabetic.calories += calories;
+        dailyIntakeDiabetic.protein += protein;
+        dailyIntakeDiabetic.carbs += carbs;
+        dailyIntakeDiabetic.fat += fat;
+        dailyIntakeDiabetic.sugar += sugar;
+        res.render('dailyIntakeDiabetes', {dailyIntake: dailyIntakeDiabetic});
+    } else if (userType === 'senior') {
+        dailyIntakeSenior.calories += calories;
+        dailyIntakeSenior.protein += protein;
+        dailyIntakeSenior.carbs += carbs;
+        dailyIntakeSenior.fat += fat;
+        dailyIntakeSenior.vitaminA += vitaminA;
+        dailyIntakeSenior.vitaminC += vitaminC;
+        dailyIntakeSenior.vitaminD += vitaminD;
+        dailyIntakeSenior.vitaminE += vitaminE;
+        dailyIntakeSenior.vitaminK += vitaminK;
+        dailyIntakeSenior.vitaminB1 += vitaminB1;
+        dailyIntakeSenior.vitaminB2 += vitaminB2;
+        dailyIntakeSenior.vitaminB3 += vitaminB3;
+        dailyIntakeSenior.vitaminB6 += vitaminB6;
+        dailyIntakeSenior.vitaminB12 += vitaminB12;
+        res.render('dailyIntakeSenior', {dailyIntake: dailyIntakeSenior});
+    } else {
+        dailyIntake.calories += calories;
+        dailyIntake.protein += protein;
+        dailyIntake.carbs += carbs;
+        dailyIntake.fat += fat;
+        res.render('dailyIntake', {dailyIntake: dailyIntake});
+    }
+    
 });
+
+
 
 router.get('/signup', (req, res) => {
     res.render('signup');
@@ -257,5 +313,47 @@ router.post('/signup', async (req, res) => {
     }
   });
   
+  router.get('/foods', async (req, res) => {
+    const foodsCollection = await foods()
+    const foodsList = await foodsCollection.find({}).toArray();
+    res.render('foods', {foods: foodsList})
+  })
+
+  router.get('/addFoods', async (req, res) => {
+    const userType = req.session.userType;
+    res.render('addFoods', { userType });
+});
+
+router.post('/addFoods', async (req, res) => {
+    const userType = req.session.userType;
+    const { name, calories, protein, carbs, fat, sugar, vitaminA, vitaminC, vitaminD, vitaminE, vitaminK, vitaminB1, vitaminB2, vitaminB3, vitaminB6, vitaminB12 } = req.body;
+    try {
+        if (userType === 'senior') {
+            const newFood = await createSenior(name, parseInt(calories), parseInt(protein), parseInt(carbs), parseInt(fat), parseInt(vitaminA), parseInt(vitaminC), parseInt(vitaminD), parseInt(vitaminE), parseInt(vitaminK), parseInt(vitaminB1), parseInt(vitaminB2), parseInt(vitaminB3), parseInt(vitaminB6), parseInt(vitaminB12));
+            const foodsCollection = await foods();
+            const foodsList = await foodsCollection.find({}).toArray();
+            res.render('foods', {foods: foodsList});
+        } else if (userType === 'athlete') {
+            const newFood = await createAthlete(name, parseInt(calories), parseInt(protein), parseInt(carbs), parseInt(fat));
+            const foodsCollection = await foods();
+            const foodsList = await foodsCollection.find({}).toArray();
+            res.render('foods', {foods: foodsList});
+        } else if (userType === 'diabetic') {
+            const newFood = await createDiabetic(name, parseInt(calories), parseInt(protein), parseInt(carbs), parseInt(fat), parseInt(sugar));
+            const foodsCollection = await foods();
+            const foodsList = await foodsCollection.find({}).toArray();
+            res.render('foods', {foods: foodsList});
+        } else {
+            const newFood = await create(name, parseInt(calories), parseInt(protein), parseInt(carbs), parseInt(fat));
+            const foodsCollection = await foods();
+            const foodsList = await foodsCollection.find({}).toArray();
+            res.render('foods', {foods: foodsList});
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(400).send(error);
+    }
+});
+
 
 export default router;
